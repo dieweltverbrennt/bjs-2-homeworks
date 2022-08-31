@@ -93,7 +93,7 @@
     giveBookByName(bookName) {
         let book = this.books.find(item => item.name === bookName);
         if(book != undefined) {
-            this.books.splice(book);
+            this.books.splice(book, 1);
             return book;
         }
         else {
