@@ -104,27 +104,42 @@
 
 //  task 3
 
-class SubjectMarks {
-    constructor(subject) {
-        this.subject = subject;
-        this.marks = [];
-    }
-}
-
 class Student {
     constructor(name) {
         this.name = name;
-        this.subjects = new SubjectMarks;
+        this.subjects = [];
     }
 
     addMark(mark, subject) {
-        if(mark >= 1 && mark <= 5)
-        {
-          this.subjects[subject].push(mark);
+        if(mark >= 1 && mark <= 5) {
+            let sub = this.subjects.find(item => item.subject === subject);
+            if(sub != undefined) {
+                sub.marks.push(mark);
+            }
+            else this.subjects.push({subject: subject, marks: [mark]});
         }
+        else return "Ошибка, оценка должна быть числом от 1 до 5";
     }
 
     getAverageBySubject(subject) {
-        return this.subjects[subject].marks.reduce(item, acc => acc += item, 0) / this.subjects[subject].marks.length;
+        let sub = this.subjects.find(item => item.subject === subject);
+        if(sub != undefined) {
+            return sub.marks.reduce((item, acc) => acc += item, 0) / sub.marks.length;
+        }
+        else return "Несуществующий предмет";
+    }
+
+    getAverage() {
+        let marksSum = 0, marksCount = 0;
+        for(let i in this.subjects) {
+            marksSum += this.subjects[i].marks.reduce((item, acc) => acc += item);
+            marksCount += this.subjects[i].marks.length;
+        }
+        return marksSum/marksCount;
+    }
+
+    exclude(reason) {
+        delete this.subjects;
+        this.excluded = reason;
     }
 }
