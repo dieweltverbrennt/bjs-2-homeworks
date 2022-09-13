@@ -33,7 +33,7 @@ class AlarmClock {
 
     start() {
         function checkClock(item) {
-            if(item.getCurrentFormattedTime() === item.time) {
+            if(this.getCurrentFormattedTime() === item.time) {
                 return item.callback();
             }
         }
