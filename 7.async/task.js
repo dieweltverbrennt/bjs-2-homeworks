@@ -8,18 +8,18 @@ class AlarmClock {
         if(id === undefined) {
             throw new Error("Невозможно идентифицировать будильник. Параметр id не передан.");
         }
-        else if(this.alarmCollection[id] != undefined) {
+        else if(this.alarmCollection.some(item => item.id === id)) {
             console.error();
             return 0;
         }
-        else if(!this.alarmCollection.some(item => item.id === id)) {
-            return this.alarmCollection.push({time: time, callback: callback, id: id});
-        }
+        else return this.alarmCollection.push({time, callback, id});
+        
     }
 
     removeClock(id) {
-        this.alarmCollection = this.alarmCollection.filter(function(item) {return item.id !== id});
-        if(this.alarmCollection.includes(this.alarmCollection.id === id) === false) {
+        const arrLength = this.alarmCollection.length;
+        this.alarmCollection = this.alarmCollection.filter(item => item.id !== id);
+        if(this.alarmCollection.length != arrLength) {
             return true;
         }
         else return false;
@@ -39,6 +39,8 @@ class AlarmClock {
                 return item.callback();
             }
         }
+
+        checkClock = checkClock.bind(this);
       
         if(this.timerId === null) {
             this.timerId = setInterval(() => this.alarmCollection.forEach(item => checkClock(item)));
@@ -57,7 +59,7 @@ class AlarmClock {
     }
 
     clearAlarms() {
-        setTimeout(this.start());
+        this.stop();
         this.alarmCollection = [];
     }
 }
