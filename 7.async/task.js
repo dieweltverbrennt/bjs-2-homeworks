@@ -32,10 +32,8 @@ class AlarmClock {
     }
 
     start() {
-        let timeNow = this.getCurrentFormattedTime();
-      
         function checkClock(item) {
-            if(timeNow === item.time) {
+            if(item.getCurrentFormattedTime() === item.time) {
                 return item.callback();
             }
         }
